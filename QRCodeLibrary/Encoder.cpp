@@ -20,10 +20,12 @@ BitArray Encoder::encode()
 	else if (metadata_bit_num + encoded_bit_num >= Tables::max_capability.at(corr_lvl).at(version))
 		throw std::invalid_argument("This version is too low for input of this size. Set negative version to calculate it dynamicly");
 
-	e.resize(metadata_bit_num + encoded_bit_num);
+	e.resize(Tables::max_capability.at(corr_lvl).at(version));
 
 	write_metadata(input.size(), metadata_bit_num - 4, method, e);
 	encode_input(metadata_bit_num);
+
+	pad_data(e, metadata_bit_num + encoded_bit_num);
 
 	return e;
 }
@@ -125,6 +127,15 @@ unsigned char Encoder::encode_char(char ch)
 			return i;
 
 	throw std::runtime_error("No such character in alphabet. Use bytes QR code method.");
+}
+
+void Encoder::pad_data(BitArray& arr, unsigned bits_written)
+{
+	unsigned encoded_bytes = ceil_div(bits_written, 8);
+	unsigned max_capability_bytes = arr.size / 8;
+
+	for (unsigned i = encoded_bytes; i < max_capability_bytes; i++)
+		arr.v[i] = ((i - encoded_bytes) % 2 == 0) ? 0b11101100 : 0b00010001;
 }
 
 unsigned char Encoder::get_version()

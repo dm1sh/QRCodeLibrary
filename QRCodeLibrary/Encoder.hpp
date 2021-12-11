@@ -42,6 +42,8 @@ public:
 
 	static unsigned char encode_char(char ch);
 
+	static void pad_data(BitArray& arr, unsigned bits_written);
+
 	unsigned char get_version();
 	BitArray get_data();
 
