@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-BitArray Encoder::encode()
+BitArray& Encoder::encode()
 {
 	unsigned encoded_bit_num = calculate_encoded_input_size(input.size(), method);
 	unsigned metadata_bit_num = calculate_metadata_size(method, ((version < 0) ? 0 : version));
@@ -138,14 +138,14 @@ void Encoder::pad_data(BitArray& arr, unsigned bits_written)
 		arr.v[i] = ((i - encoded_bytes) % 2 == 0) ? 0b11101100 : 0b00010001;
 }
 
-unsigned char Encoder::get_version()
+unsigned char Encoder::get_version() const
 {
 	if (version < 0) throw std::runtime_error("Determite version before getting it");
 
 	return version;
 }
 
-BitArray Encoder::get_data()
+BitArray Encoder::get_data() const
 {
 	if (e.size == 0) throw std::runtime_error("Data is not calculated yet");
 

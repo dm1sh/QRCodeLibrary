@@ -13,7 +13,7 @@ class Encoder
 public:
 	Encoder(const string& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1) : input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ } {};
 
-	BitArray encode();
+	BitArray& encode();
 
 	static unsigned char determite_version(unsigned size, CorrectionLevel corr_lvl);
 
@@ -44,8 +44,8 @@ public:
 
 	static void pad_data(BitArray& arr, unsigned bits_written);
 
-	unsigned char get_version();
-	BitArray get_data();
+	unsigned char get_version() const;
+	BitArray get_data() const;
 
 private:
 	const string input;

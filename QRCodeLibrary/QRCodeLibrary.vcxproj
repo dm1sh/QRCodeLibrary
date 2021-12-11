@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BitArray.hpp" />
+    <ClInclude Include="DataBlocks.hpp" />
     <ClInclude Include="Encoder.hpp" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Method.hpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitArray.cpp" />
+    <ClCompile Include="DataBlocks.cpp" />
     <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="Method.cpp" />
     <ClCompile Include="pch.cpp">

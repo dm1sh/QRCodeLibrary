@@ -11,7 +11,7 @@ public:
 	QRCodeConstructorMock(Parameters ...params) {};
 };
 TEST(QRCodeTests, ConstructsClass) {
-	QRCode qr("TEST");
+	QRCode qr(std::string("TEST"));
 
 	EXPECT_EQ(qr.input, "TEST");
 	EXPECT_EQ(qr.corr_lvl, CorrectionLevel::Q);
