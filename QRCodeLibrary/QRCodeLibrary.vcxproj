@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Encode.hpp" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Method.hpp" />
     <ClInclude Include="pch.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Tables.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Encode.cpp" />
     <ClCompile Include="Method.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
