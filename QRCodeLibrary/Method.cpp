@@ -21,11 +21,6 @@ QRCodeMethod Method::determite_method(string input)
 	return type;
 }
 
-constexpr bool Method::is_num(char ch)
-{
-	return ch >= '0' && ch <= '9';
-}
-
 bool Method::is_alphabetic(char ch)
 {
 	return find(Tables::alphabetic.cbegin(), Tables::alphabetic.cend(), ch) != Tables::alphabetic.cend();
