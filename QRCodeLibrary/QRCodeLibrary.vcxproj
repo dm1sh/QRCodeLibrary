@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BitArray.hpp" />
     <ClInclude Include="Encode.hpp" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Method.hpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Tables.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="Encode.cpp" />
     <ClCompile Include="Method.cpp" />
     <ClCompile Include="pch.cpp">
