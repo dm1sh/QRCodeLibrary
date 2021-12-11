@@ -5,6 +5,12 @@
 
 #include "../QRCodeLibrary/BitArray.hpp"
 
+TEST(CeilDivTests, DividesCeilingResult) {
+	EXPECT_EQ(ceil_div(1, 3), 1);
+	EXPECT_EQ(ceil_div(4, 2), 2);
+	EXPECT_EQ(ceil_div(5, 2), 3);
+}
+
 class BitArrayTests: public ::testing::Test {
 public:
 	BitArrayTests() : ::testing::Test(), a1(15) {};

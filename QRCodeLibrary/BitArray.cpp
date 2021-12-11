@@ -6,6 +6,8 @@
 
 bool BitArray::get(unsigned index) const
 {
+	if (index >= size) throw std::out_of_range("No such element in array");
+
     return (v[index / 8] >> (8 - 1 - index % 8)) & 1;
 }
 
@@ -21,6 +23,8 @@ BitArray::operator std::string() const
 
 void BitArray::set(unsigned index, bool val)
 {
+	if (index >= size) throw std::out_of_range("No such element in array");
+
 	if (val)
 		v[index / 8] |= 1 << (8 - 1 - index % 8);
 	else
@@ -29,8 +33,12 @@ void BitArray::set(unsigned index, bool val)
 
 unsigned BitArray::set(unsigned index, int32_t val, unsigned size)
 {
+	if (index >= this->size) throw std::out_of_range("No such element in array");
+
 	unsigned shift = index % 8, written = 0;
-	size = std::min(size, this->size - index);
+
+	if (size > this->size - index) throw std::out_of_range("Number of bits to write from this index is more than BitArray capability");
+
 	index /= 8;
 
 	while (written < size) {
@@ -47,4 +55,11 @@ unsigned BitArray::set(unsigned index, int32_t val, unsigned size)
 	}
 
 	return written;
+}
+
+void BitArray::resize(unsigned new_size)
+{
+	v.resize(ceil_div(new_size, 8));
+
+	size = new_size;
 }

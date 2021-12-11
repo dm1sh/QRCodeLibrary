@@ -22,5 +22,7 @@ public:
 	bool get(unsigned index) const;
 	void set(unsigned index, bool val);
 	unsigned set(unsigned index, int32_t val, unsigned size);
+
+	void resize(unsigned new_size);
 };
 
