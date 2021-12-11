@@ -1,9 +1,22 @@
 #include "pch.h"
+
+#include <sstream>
+
 #include "BitArray.hpp"
 
-bool BitArray::get(unsigned index)
+bool BitArray::get(unsigned index) const
 {
     return (v[index / 8] >> (8 - 1 - index % 8)) & 1;
+}
+
+BitArray::operator std::string() const 
+{
+	std::stringstream res;
+
+	for (unsigned i = 0; i < size; i++)
+		res << static_cast<int>((*this).get(i));
+
+	return res.str();
 }
 
 void BitArray::set(unsigned index, bool val)

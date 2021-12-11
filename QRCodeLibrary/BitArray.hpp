@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -12,11 +13,13 @@ class BitArray
 {
 public:
 	BitArray(unsigned size_ = 0) : size{ size_ }, v(ceil_div(size_, 8)) {};
+
+	operator std::string() const;
 	
 	unsigned size;
 	vector<unsigned char> v;
 
-	bool get(unsigned index);
+	bool get(unsigned index) const;
 	void set(unsigned index, bool val);
 	unsigned set(unsigned index, int32_t val, unsigned size);
 };

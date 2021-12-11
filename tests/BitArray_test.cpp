@@ -24,6 +24,10 @@ TEST_F(BitArrayTests, GetsBitByIndex) {
 	EXPECT_EQ(a1.get(1), 0);
 }
 
+TEST_F(BitArrayTests, Converts_to_string) {
+	EXPECT_EQ(std::string(a1), "101010101111111");
+}
+
 TEST_F(BitArrayTests, SetsIndividualBit) {
 	a1.set(0, 0);
 	a1.set(1, 1);
