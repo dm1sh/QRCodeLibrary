@@ -24,7 +24,10 @@
     <ClInclude Include="QRCode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="method.hpp">
+    <ClInclude Include="Method.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tables.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -33,6 +36,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QRCode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Method.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
