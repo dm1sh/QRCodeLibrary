@@ -30,7 +30,7 @@
     <ClInclude Include="Tables.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Encode.hpp">
+    <ClInclude Include="Encoder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BitArray.hpp">
@@ -50,7 +50,7 @@
     <ClCompile Include="Tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Encode.cpp">
+    <ClCompile Include="Encoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BitArray.cpp">
