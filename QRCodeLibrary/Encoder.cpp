@@ -3,20 +3,42 @@
 #include "Encoder.hpp"
 #include "Tables.hpp"
 
-unsigned char Encoder::determite_version()
+#include <stdexcept>
+
+BitArray Encoder::encode()
+{
+	unsigned encoded_bit_num = calculate_encoded_input_size(input.size(), method);
+	unsigned metadata_bit_num = calculate_metadata_size(method, ((version < 0) ? 0 : version));
+
+	if (version < 0) {
+		version = 0;
+		while (metadata_bit_num + encoded_bit_num >= Tables::max_capability.at(corr_lvl).at(version)) {
+			version = determite_version(metadata_bit_num + encoded_bit_num, corr_lvl);
+			metadata_bit_num = calculate_metadata_size(method, version);
+		}
+	}
+	else if (metadata_bit_num + encoded_bit_num >= Tables::max_capability.at(corr_lvl).at(version))
+		throw std::invalid_argument("This version is too low for input of this size. Set negative version to calculate it dynamicly");
+
+	e.resize(metadata_bit_num + encoded_bit_num);
+
+	write_metadata(input.size(), metadata_bit_num - 4, method, e);
+	encode_input(metadata_bit_num);
+
+	return e;
+}
+
+unsigned char Encoder::determite_version(unsigned size, CorrectionLevel corr_lvl)
 {
 	const auto& sizes = Tables::max_capability.at(corr_lvl);
 
-	return upper_index(sizes, input.size());
-}
-
-void Encoder::encode()
-{
-	unsigned bit_num = calculate_encoded_input_size(input.size(), method);
+	return upper_index(sizes, size);
 }
 
 unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QRCodeMethod method)
 {
+	if (method == QRCodeMethod::Dynamic) throw std::runtime_error("Specify correct method");
+
 	unsigned bit_num = 0;
 
 	switch (method) {
@@ -38,6 +60,28 @@ unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QRCodeMethod
 	}
 
 	return bit_num;
+}
+
+unsigned Encoder::calculate_metadata_size(QRCodeMethod method, unsigned char version)
+{
+	if (method == QRCodeMethod::Dynamic) throw std::runtime_error("Specify correct method");
+
+	unsigned char size = 0;
+
+	auto lengths = Tables::data_amount_lengths.at(method);
+
+	for (int i = 0; i < 2 && lengths[i].first <= version; i++)
+		size = lengths[i].second;
+
+	return size + 4;
+}
+
+void Encoder::write_metadata(unsigned input_size, unsigned input_bits_amount_size, QRCodeMethod method, BitArray& out)
+{
+	if (method == QRCodeMethod::Dynamic) throw std::runtime_error("Specify correct method");
+
+	out.set(0, Tables::mode_indicator.at(method), 4);
+	out.set(4, input_size, input_bits_amount_size);
 }
 
 void Encoder::encode_numeric(const string& input, BitArray& out, unsigned offset)
@@ -81,4 +125,18 @@ unsigned char Encoder::encode_char(char ch)
 			return i;
 
 	throw std::runtime_error("No such character in alphabet. Use bytes QR code method.");
+}
+
+unsigned char Encoder::get_version()
+{
+	if (version < 0) throw std::runtime_error("Determite version before getting it");
+
+	return version;
+}
+
+BitArray Encoder::get_data()
+{
+	if (e.size == 0) throw std::runtime_error("Data is not calculated yet");
+
+	return e;
 }

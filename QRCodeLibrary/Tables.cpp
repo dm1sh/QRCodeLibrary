@@ -16,3 +16,15 @@ const std::map<CorrectionLevel, const std::array<unsigned, 20>> Tables::max_capa
 	{ CorrectionLevel::Q, {{104, 176, 272, 384, 496, 608, 704, 880, 1056, 1232, 1440, 1648, 1952, 2088, 2360, 2600, 2936, 3176, 3560, 3880}} },
 	{ CorrectionLevel::H, {{72, 128, 208, 288, 368, 480, 528, 688, 800, 976, 1120, 1264, 1440, 1576, 1784, 2024, 2264, 2504, 2728, 3080}} }
 };
+
+const std::map<QRCodeMethod, unsigned char> Tables::mode_indicator{
+	{ QRCodeMethod::Numeric, 0b0001 },
+	{ QRCodeMethod::Alphabetic, 0b0010 },
+	{ QRCodeMethod::Byte, 0b0100 }
+};
+
+const std::map<QRCodeMethod, const std::array<const std::pair<unsigned char, unsigned char>, 3>> Tables::data_amount_lengths{
+	{ QRCodeMethod::Numeric, {{ {0, 10}, {8, 12}, {25, 14} }} },
+	{ QRCodeMethod::Alphabetic, {{ {0, 9}, {8, 11}, {25, 13} }} } ,
+	{ QRCodeMethod::Byte, {{ {0, 8}, {8, 16}, {25, 16} }} }
+};

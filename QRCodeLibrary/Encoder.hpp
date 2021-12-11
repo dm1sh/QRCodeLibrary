@@ -11,15 +11,18 @@ using namespace std;
 class Encoder
 {
 public:
-	Encoder(const string& input_, CorrectionLevel corr_lvl_, QRCodeMethod method_, unsigned char version_) : input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ } {};
+	Encoder(const string& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1) : input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ } {};
 
-	unsigned char determite_version();
+	BitArray encode();
 
-	void encode();
+	static unsigned char determite_version(unsigned size, CorrectionLevel corr_lvl);
 
 	static unsigned calculate_encoded_input_size(unsigned input_size, QRCodeMethod method);
+	static unsigned calculate_metadata_size(QRCodeMethod method, unsigned char version);
 
-	constexpr void encode_input() {
+	static void write_metadata(unsigned input_size, unsigned input_bits_amount_size, QRCodeMethod method, BitArray& out);
+
+	constexpr void encode_input(unsigned offset) {
 		switch (method) {
 		case QRCodeMethod::Numeric:
 			encode_numeric(input, e, offset);
@@ -39,14 +42,16 @@ public:
 
 	static unsigned char encode_char(char ch);
 
+	unsigned char get_version();
+	BitArray get_data();
+
 private:
-	const string& input;
+	const string input;
 	CorrectionLevel corr_lvl;
 	const QRCodeMethod method;
-	unsigned char version;
+	char version;
 
 	BitArray e;
-	unsigned offset = 0;
 };
 
 template <typename T, unsigned N>
