@@ -3,7 +3,7 @@
 #include "DataBlocks.hpp"
 #include "Tables.hpp"
 
-vector<unsigned char>& DataBlocks::compose_data_and_EC_blocks()
+vector<unsigned char>& DataBlocks::compose_joined_data_and_EC_blocks()
 {
 	vector<pair<unsigned, unsigned>>data_block_sizes;
 
@@ -13,6 +13,8 @@ vector<unsigned char>& DataBlocks::compose_data_and_EC_blocks()
 	vector<vector<unsigned char>> EC_blocks(data_block_sizes.size(), vector<unsigned char>());
 	for (unsigned i = 0; i < data_block_sizes.size(); i++)
 		compose_EC_bytes(EC_blocks[i], e_data.cbegin() + data_block_sizes[i].second, EC_bytes_number, data_block_sizes[i].first);
+
+	join_data_and_EC_blocks(data, e_data, data_block_sizes, EC_blocks);
 
 	return data;
 }
@@ -51,4 +53,26 @@ void DataBlocks::compose_EC_bytes(vector<unsigned char>& res, const vector<unsig
 			res[k] ^= Tables::galois_field[C];
 		}
 	}
+}
+
+unsigned get_db_byte_index(unsigned block_index, unsigned byte_index, const vector<pair<unsigned, unsigned>>& db_sizes) {
+	return db_sizes[block_index].second + byte_index;
+}
+
+void DataBlocks::join_data_and_EC_blocks(vector<unsigned char>& res, const vector<unsigned char>& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<vector<unsigned char>>& ec_codes)
+{
+	if (ec_codes.size())
+		res.reserve(e_data.size() + ec_codes.at(0).size() * ec_codes.size());
+	else
+		res.reserve(e_data.size());
+
+	for (unsigned i = 0; i < db_sizes[db_sizes.size() - 1].first; i++)
+		for (unsigned j = 0; j < db_sizes.size(); j++)
+			if (i < db_sizes[j].first)
+				res.push_back(e_data[get_db_byte_index(j, i, db_sizes)]);
+
+	if (ec_codes.size())
+		for (unsigned i = 0; i < ec_codes.at(0).size(); i++)
+			for (unsigned j = 0; j < ec_codes.size(); j++)
+				res.push_back(ec_codes[j][i]);
 }
