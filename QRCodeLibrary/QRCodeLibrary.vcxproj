@@ -159,6 +159,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="QRCode.hpp" />
     <ClInclude Include="Tables.hpp" />
+    <ClInclude Include="TritMatrix.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitArray.cpp" />
@@ -172,6 +173,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="QRCode.cpp" />
+    <ClCompile Include="TritMatrix.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
