@@ -14,6 +14,6 @@ QRCode::QRCode(string& input_, CorrectionLevel corr_lvl_, QRCodeMethod method_, 
 	version = encoder.get_version();
 	const BitArray& encoded_data = encoder.encode();
 
-	DataBlocks data_blocks(encoded_data, corr_lvl, version);
+	DataBlocks data_blocks(encoded_data.v, corr_lvl, version);
 	vector<unsigned char>& blocked_data = data_blocks.compose_data_and_EC_blocks();
 }

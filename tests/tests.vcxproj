@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitArray_test.cpp" />
+    <ClCompile Include="DataBlocks_test.cpp" />
     <ClCompile Include="Encoder_test.cpp" />
     <ClCompile Include="Method_test.cpp" />
     <ClCompile Include="QRCode_test.cpp" />
