@@ -1,15 +1,13 @@
 find_package(Threads REQUIRED)
 
-# Enable ExternalProject CMake module
 include(ExternalProject)
 
-# Download and install GoogleTest
 ExternalProject_Add(
   gtest
-  URL https://github.com/google/googletest/archive/refs/heads/main.zip
+  URL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
-  # Disable install step
   INSTALL_COMMAND ""
+  URL_HASH SHA1=9ffb7b5923f4a8fcdabf2f42c6540cce299f44c0
 )
 
 ExternalProject_Get_Property(gtest source_dir binary_dir)
@@ -22,18 +20,9 @@ set_target_properties(libgtest PROPERTIES
 "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
 )
 
-add_library(libgmock IMPORTED STATIC GLOBAL)
-add_dependencies(libgmock gtest)
+include_directories("${source_dir}/googletest/include")
 
-set_target_properties(libgmock PROPERTIES
-"IMPORTED_LOCATION" "${binary_dir}/lib/libgmock.a"
-"IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
-)
-
-# I couldn't make it work with INTERFACE_INCLUDE_DIRECTORIES
-include_directories("${source_dir}/googletest/include"
-                    "${source_dir}/googlemock/include")
-
+# Tests build
 
 file(GLOB SRCS *.cpp)
 
@@ -42,7 +31,6 @@ ADD_EXECUTABLE(testQRCode ${SRCS})
 TARGET_LINK_LIBRARIES(testQRCode
   QRCodeLibrary
   libgtest
-  libgmock
 )
 
 add_test(NAME testQRCode
