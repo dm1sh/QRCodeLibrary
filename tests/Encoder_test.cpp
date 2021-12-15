@@ -7,29 +7,29 @@
 /* upper_index function */
 
 TEST(UpperIndexTests, FindsExactMatch) {
-	array<int, 5> arr1{ 1, 2, 3, 4, 5 };
+	array<unsigned, 5> arr1{ 1, 2, 3, 4, 5 };
 
-	for (int i = 0; i < 5; i++)
+	for (unsigned i = 0; i < 5; i++)
 		EXPECT_EQ(upper_index(arr1, i+1), i);
 
-	array<int, 4> arr2{ 1, 2, 3, 4 };
+	array<unsigned, 4> arr2{ 1, 2, 3, 4 };
 
-	for (int i = 0; i < 4; i++)
+	for (unsigned i = 0; i < 4; i++)
 		EXPECT_EQ(upper_index(arr2, i + 1), i);
 }
 
 TEST(UpperIndexTests, FindsClosestUpper) {
-	array<int, 5> arr{ 1, 3, 5, 7, 9 };
+	array<unsigned, 5> arr{ 1, 3, 5, 7, 9 };
 
-	for (int i = 0; i < 5; i++)
+	for (unsigned i = 0; i < 5; i++)
 		EXPECT_EQ(upper_index(arr, i * 2), i);
 }
 
 TEST(UpperIndexTests, IfNothingFoundReturnsArrSize) {
-	array<int, 5> arr{ 0, 1, 2, 3, 4 };
+	array<unsigned, 5> arr{ 0, 1, 2, 3, 4 };
 
-	EXPECT_EQ(upper_index(arr, 5), 5);
-	EXPECT_EQ(upper_index(arr, 10), 5);
+	EXPECT_EQ(upper_index(arr, 5u), 5);
+	EXPECT_EQ(upper_index(arr, 10u), 5);
 }
 
 /* Encoder class */

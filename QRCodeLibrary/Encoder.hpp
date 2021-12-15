@@ -57,7 +57,7 @@ private:
 };
 
 template <typename T, unsigned N>
-constexpr unsigned char upper_index(const array<T, N> arr, T val) {
+constexpr unsigned upper_index(const array<T, N> arr, T val) {
 	unsigned count = arr.size(), s = 0, e, step;
 
 	while (count > 0) {
