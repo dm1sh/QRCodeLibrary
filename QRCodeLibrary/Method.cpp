@@ -1,5 +1,7 @@
 #include "pch.h"
 
+#include <algorithm>
+
 #include "Method.hpp"
 #include "Tables.hpp"
 

@@ -56,9 +56,9 @@ private:
 	BitArray e;
 };
 
-template <typename T, unsigned N>
+template <typename T, size_t N>
 constexpr unsigned upper_index(const array<T, N> arr, T val) {
-	unsigned count = arr.size(), s = 0, e, step;
+	unsigned count = arr.size(), s = 0, e = 0, step = 0;
 
 	while (count > 0) {
 		step = count / 2;
