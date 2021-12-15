@@ -53,9 +53,12 @@ int main() {
 	SetConsoleCP(1251);
 #endif
 
-	string input;
+	string input, buff;
 
-	getline(cin, input);
+	while(getline(cin, buff)) {
+		input += buff + '\n';
+	}
+	input.pop_back();
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	input = cp1251_to_utf8(input.c_str());
