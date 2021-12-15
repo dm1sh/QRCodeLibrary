@@ -14,7 +14,7 @@ TEST(QRCodeTests, ConstructsClass) {
 	string inp("TEST");
 	QRCode qr(inp);
 
-	EXPECT_EQ(qr.input, "TEST");
+	EXPECT_EQ(qr.input, "TES");
 	EXPECT_EQ(qr.corr_lvl, CorrectionLevel::M);
 	EXPECT_EQ(qr.method, QRCodeMethod::Alphabetic);
 }

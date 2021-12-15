@@ -14,5 +14,5 @@ jobs:
     - name: cmake make
       run: cmake --build build/ --target all
     # run tests
-    - name: run tests 1
+    - name: run tests
       run: build/tests/testQRCode
