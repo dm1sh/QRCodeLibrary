@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "TritMatrix.hpp"
 
 #include <stdexcept>
@@ -25,7 +25,7 @@ void TritMatrix::set(unsigned y, unsigned x, bool val)
     set(y, x, val ? Trit::T : Trit::F);
 }
 
-string TritMatrix::to_ascii() const
+string TritMatrix::to_ascii(char black, char white, char empty) const
 {
     string res;
 
@@ -34,13 +34,13 @@ string TritMatrix::to_ascii() const
             switch (c[i][j])
             {
             case Trit::T:
-                res.push_back('#');
+                res.push_back(black);
                 break;
             case Trit::F:
-                res.push_back(' ');
+                res.push_back(white);
                 break;
             case Trit::EMPTY:
-                res.push_back('E');
+                res.push_back(empty);
                 break;
             }
         if (i != c.size() - 1)
@@ -73,4 +73,11 @@ string TritMatrix::to_string() const
     }
 
     return res;
+}
+
+void TritMatrix::resize(unsigned width, unsigned height)
+{
+    c.resize(height);
+    for (unsigned i = 0; i < height; i++)
+        c[i].resize(width, Trit::EMPTY);
 }

@@ -30,11 +30,14 @@ BitArray& Encoder::encode()
 	return e;
 }
 
-unsigned char Encoder::determite_version(unsigned size, CorrectionLevel corr_lvl)
+char Encoder::determite_version(unsigned size, CorrectionLevel corr_lvl)
 {
 	const auto& sizes = Tables::max_capability.at(corr_lvl);
 
-	return upper_index(sizes, size);
+	char version = upper_index(sizes, size);
+	if (version > 39) throw std::runtime_error("Too much data. There is no such QR code version that can store so mush characters");
+
+	return version;
 }
 
 unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QRCodeMethod method)
@@ -64,7 +67,7 @@ unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QRCodeMethod
 	return bit_num;
 }
 
-unsigned Encoder::calculate_metadata_size(QRCodeMethod method, unsigned char version)
+unsigned Encoder::calculate_metadata_size(QRCodeMethod method, char version)
 {
 	if (method == QRCodeMethod::Dynamic) throw std::runtime_error("Specify correct method");
 
@@ -72,7 +75,7 @@ unsigned Encoder::calculate_metadata_size(QRCodeMethod method, unsigned char ver
 
 	auto lengths = Tables::data_amount_lengths.at(method);
 
-	for (int i = 0; i < 2 && lengths[i].first <= version; i++)
+	for (int i = 0; i < 3 && lengths[i].first <= version; i++)
 		size = lengths[i].second;
 
 	return size + 4;
@@ -138,7 +141,7 @@ void Encoder::pad_data(BitArray& arr, unsigned bits_written)
 		arr.v[i] = ((i - encoded_bytes) % 2 == 0) ? 0b11101100 : 0b00010001;
 }
 
-unsigned char Encoder::get_version() const
+char Encoder::get_version() const
 {
 	if (version < 0) throw std::runtime_error("Determite version before getting it");
 

@@ -15,10 +15,10 @@ public:
 
 	BitArray& encode();
 
-	static unsigned char determite_version(unsigned size, CorrectionLevel corr_lvl);
+	static char determite_version(unsigned size, CorrectionLevel corr_lvl);
 
 	static unsigned calculate_encoded_input_size(unsigned input_size, QRCodeMethod method);
-	static unsigned calculate_metadata_size(QRCodeMethod method, unsigned char version);
+	static unsigned calculate_metadata_size(QRCodeMethod method, char version);
 
 	static void write_metadata(unsigned input_size, unsigned input_bits_amount_size, QRCodeMethod method, BitArray& out);
 
@@ -44,7 +44,7 @@ public:
 
 	static void pad_data(BitArray& arr, unsigned bits_written);
 
-	unsigned char get_version() const;
+	char get_version() const;
 	BitArray get_data() const;
 
 private:

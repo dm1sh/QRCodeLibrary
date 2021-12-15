@@ -10,7 +10,7 @@ using namespace std;
 class DataBlocks
 {
 public:
-	DataBlocks(const vector<unsigned char>& e_data_, CorrectionLevel corr_lvl_, unsigned char version_) : e_data{ e_data_ }, corr_lvl{ corr_lvl_ }, version{ version_ } {};
+	DataBlocks(const vector<unsigned char>& e_data_, CorrectionLevel corr_lvl_, char version_) : e_data{ e_data_ }, corr_lvl{ corr_lvl_ }, version{ version_ } {};
 
 	vector<unsigned char>& compose_joined_data_and_EC_blocks();
 
@@ -21,7 +21,7 @@ public:
 private:
 	const vector<unsigned char>& e_data;
 	CorrectionLevel corr_lvl;
-	unsigned char version;
+	char version;
 
 	vector<unsigned char> data;
 };

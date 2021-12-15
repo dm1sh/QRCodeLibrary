@@ -53,6 +53,9 @@ TEST(EncoderTests, CalculatesMetadataSize) {
 	EXPECT_EQ(Encoder::calculate_metadata_size(QRCodeMethod::Numeric, 0), 14);
 	EXPECT_EQ(Encoder::calculate_metadata_size(QRCodeMethod::Alphabetic, 5), 13);
 	EXPECT_EQ(Encoder::calculate_metadata_size(QRCodeMethod::Numeric, 10), 16);
+	EXPECT_EQ(Encoder::calculate_metadata_size(QRCodeMethod::Byte, 9), 20);
+	EXPECT_EQ(Encoder::calculate_metadata_size(QRCodeMethod::Byte, 8), 12);
+	EXPECT_EQ(Encoder::calculate_metadata_size(QRCodeMethod::Alphabetic, 26), 17);
 }
 
 TEST(EncoderTests, DetermitesVersion) {

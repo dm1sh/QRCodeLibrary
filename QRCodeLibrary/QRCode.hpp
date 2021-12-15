@@ -2,19 +2,26 @@
 
 #include <string>
 
-#include "method.hpp"
+#include "Method.hpp"
+#include "QRMatrix.hpp"
 
 using namespace std;
 
 class QRCode
 {
 public:
-	QRCode(string& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::Q, QRCodeMethod method_ = QRCodeMethod::Dynamic, unsigned char version_ = 0);
+	QRCode(string& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1, unsigned char mask_n = 0);
+
+	string to_string() { return matrix.to_string(); };
+	string to_ascii(char black = '#', char white = ' ', char empty = 'E') { return matrix.to_ascii(black, white, empty); }
+	vector<vector<Trit>> to_vector() const { return matrix.to_vector(); };
 
 protected:
 	string input;
 	CorrectionLevel corr_lvl;
 	QRCodeMethod method;
-	unsigned char version;
+	char version;
+
+	QRMatrix matrix;
 };
 
