@@ -6,9 +6,13 @@
 #include "../QRCodeLibrary/Method.hpp"
 
 TEST(MethodTests, DetermitesStringMethod) {
-	EXPECT_EQ(Method::determite_method(std::string("123")), QRCodeMethod::Numeric);
-	EXPECT_EQ(Method::determite_method(std::string("ABC")), QRCodeMethod::Alphabetic);
-	EXPECT_EQ(Method::determite_method(std::string("ghfjghfj gfjhgd")), QRCodeMethod::Byte);
+	string a1("123");
+	string a2("ABC");
+	string a3("ghfjghfj gfjhgd");
+
+	EXPECT_EQ(Method::determite_method(a1), QRCodeMethod::Numeric);
+	EXPECT_EQ(Method::determite_method(a2), QRCodeMethod::Alphabetic);
+	EXPECT_EQ(Method::determite_method(a3), QRCodeMethod::Byte);
 }
 
 TEST(MethodTests, ChecksNumber) {
