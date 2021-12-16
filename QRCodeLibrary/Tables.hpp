@@ -8,13 +8,22 @@
 #include "Method.hpp"
 
 namespace Tables {
-	static const std::array<char, 45> alphabetic{
+	static constexpr std::array<char, 45> alphabetic{
 		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
 		'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
 		'U', 'V', 'W', 'X', 'Y', 'Z', ' ', '$', '%', '*',
 		'+', '-', '.', '/', ':'
 	};
+
+	constexpr bool is_alphabetic(char ch)
+	{
+		for (unsigned i = 0; i < Tables::alphabetic.size(); i++)
+			if (Tables::alphabetic[i] == ch) 
+				return true;
+
+		return false;
+	}
 
 	static const std::map<CorrectionLevel, const std::array<unsigned, 40>>max_capability{
 		{ CorrectionLevel::L, {{ 152, 272, 440, 640, 864, 1088, 1248, 1552, 1856, 2192, 2592, 2960, 3424, 3688, 4184, 4712, 5176, 5768, 6360, 6888, 7456, 8048, 8752, 9392, 10208, 10960, 11744, 12248, 13048, 13880, 14744, 15640, 16568, 17528, 18448, 19472, 20528, 21616, 22496, 23648 }} },
@@ -64,7 +73,7 @@ namespace Tables {
 		{ 30, {{ 41, 173, 145, 152, 216, 31, 179, 182, 50, 48, 110, 86, 239, 96, 222, 125, 42, 173, 226, 193, 224, 130, 156, 37, 251, 216, 238, 40, 192, 180 }}}
 	};
 
-	static const std::array<unsigned char, 256>galois_field{
+	static constexpr std::array<unsigned char, 256>galois_field{
 		1, 2, 4, 8, 16, 32, 64, 128, 29, 58, 116, 232, 205, 135, 19, 38,
 		76, 152, 45, 90, 180, 117, 234, 201, 143, 3, 6, 12, 24, 48, 96, 192,
 		157, 39, 78, 156, 37, 74, 148, 53, 106, 212, 181, 119, 238, 193, 159, 35,
@@ -83,7 +92,7 @@ namespace Tables {
 		44, 88, 176, 125, 250, 233, 207, 131, 27, 54, 108, 216, 173, 71, 142, 1,
 	};
 
-	static const std::array<unsigned char, 256>reverse_galois_field{
+	static constexpr std::array<unsigned char, 256>reverse_galois_field{
 		0, 0, 1, 25, 2, 50, 26, 198, 3, 223, 51, 238, 27, 104, 199, 75,
 		4, 100, 224, 14, 52, 141, 239, 129, 28, 193, 105, 248, 200, 8, 76, 113,
 		5, 138, 101, 47, 225, 36, 15, 33, 53, 147, 142, 218, 240, 18, 130, 69,
@@ -114,7 +123,7 @@ namespace Tables {
 		{6, 28, 54, 80, 106, 132, 158}, {6, 32, 58, 84, 110, 136, 162}, {6, 26, 54, 82, 110, 138, 166}, {6, 30, 58, 86, 114, 142, 170}
 	};
 
-	static const array<const array<unsigned char, 3>, 34>version_codes{ {
+	static constexpr array<const array<unsigned char, 3>, 34>version_codes{ {
 		{ 0b000010, 0b011110, 0b100110 },
 		{ 0b010001, 0b011100, 0b111000 },
 		{ 0b110111, 0b011000, 0b000100 },

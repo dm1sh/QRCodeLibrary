@@ -23,5 +23,4 @@ public:
 	static QRCodeMethod determite_method(string& input);
 
 	static constexpr bool is_num(char ch) { return ch >= '0' && ch <= '9'; };
-	static bool is_alphabetic(char ch);
 };

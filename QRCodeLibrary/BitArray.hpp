@@ -2,10 +2,12 @@
 
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 using namespace std;
 
 constexpr unsigned ceil_div(unsigned a, unsigned b) {
+	if (b == 0) throw runtime_error("Dividion by zero not possible");
 	return a / b + (a % b > 0);
 }
 

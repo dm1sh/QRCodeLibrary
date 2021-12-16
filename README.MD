@@ -22,8 +22,8 @@ public:
           unsigned char mask_n = 0 // index of mask to use (see below for different masks options)
         );
 
-  string to_string() { return matrix.to_string(); }; // presents qr-code as multiline string of zeros and ones 
-  string to_ascii(char black = '#', char white = ' ', char empty = 'E') { return matrix.to_ascii(black, white, empty); }  // presents qr-code as multiline string of specified characters 
+  string to_string() const { return matrix.to_string(); }; // presents qr-code as multiline string of zeros and ones 
+  string to_ascii(char black = '#', char white = ' ', char empty = 'E') const { return matrix.to_ascii(black, white, empty); }  // presents qr-code as multiline string of specified characters 
   vector<vector<Trit>> to_vector() const { return matrix.to_vector(); };  // presents qr-code as 2D vector of Trits 
 }
 ```

@@ -40,33 +40,6 @@ char Encoder::determite_version(unsigned size, CorrectionLevel corr_lvl)
 	return version;
 }
 
-unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QRCodeMethod method)
-{
-	if (method == QRCodeMethod::Dynamic) throw std::runtime_error("Specify correct method");
-
-	unsigned bit_num = 0;
-
-	switch (method) {
-	case QRCodeMethod::Numeric:
-		bit_num = 10 * (input_size / 3);
-		if (input_size % 3 == 2)
-			bit_num += 7;
-		else if (input_size % 3 == 1)
-			bit_num += 4;
-		break;
-	case QRCodeMethod::Alphabetic:
-		bit_num = 11 * (input_size / 2);
-		if (input_size % 2 == 1)
-			bit_num += 6;
-		break;
-	case QRCodeMethod::Byte:
-		bit_num = input_size * 8;
-		break;
-	}
-
-	return bit_num;
-}
-
 unsigned Encoder::calculate_metadata_size(QRCodeMethod method, char version)
 {
 	if (method == QRCodeMethod::Dynamic) throw std::runtime_error("Specify correct method");
@@ -123,13 +96,16 @@ void Encoder::encode_byte(const string& input, BitArray& out, unsigned offset)
 		out.set(offset + i * 8, input[i], 8);
 }
 
-unsigned char Encoder::encode_char(char ch)
+constexpr unsigned char Encoder::encode_char(char ch)
 {
-	for (unsigned i = 0; i < Tables::alphabetic.size(); i++)
+	for (unsigned char i = 0; i < Tables::alphabetic.size(); i++)
 		if (ch == Tables::alphabetic.at(i))
 			return i;
 
-	throw std::runtime_error("No such character in alphabet. Use bytes QR code method.");
+	if (!Tables::is_alphabetic(ch))
+		throw std::runtime_error("No such character in alphabet. Use bytes QR code method.");
+
+	return 0;
 }
 
 void Encoder::pad_data(BitArray& arr, unsigned bits_written)
@@ -139,13 +115,6 @@ void Encoder::pad_data(BitArray& arr, unsigned bits_written)
 
 	for (unsigned i = encoded_bytes; i < max_capability_bytes; i++)
 		arr.v[i] = ((i - encoded_bytes) % 2 == 0) ? 0b11101100 : 0b00010001;
-}
-
-char Encoder::get_version() const
-{
-	if (version < 0) throw std::runtime_error("Determite version before getting it");
-
-	return version;
 }
 
 BitArray Encoder::get_data() const
