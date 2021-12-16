@@ -230,4 +230,4 @@ Hello, world. I'm a simple QR code. You can scan me with scaner and see, what am
 
 </details>
 
-![Screenshot](https://github.com/dm1sh/QRCodeLibrary/raw/master/img/logo.jpg)
+![Screenshot](https://github.com/dm1sh/QRCodeLibrary/raw/master/img/demo_screen.jpg)
