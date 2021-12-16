@@ -1,5 +1,10 @@
 # QRCodeLibrary
 
+
+<p align="center">
+  <img src="https://github.com/dm1sh/QRCodeLibrary/raw/master/logo.jpg" alt="QRCodeLibrary logo" width="150px">
+</p>
+
 ## Description
 
 A C++ library for QRCode generation. It provides `QRCode` class with constructor, accepting input string and other QR code properties (see constructor definition below). After class construction you can access QR code content as new-line separated string of zeros and ones (useful for latter processing in other languages), multiline ASCII string for immidiate console output, or 2D vector of `Trit`s. It is an internal enum with three possible values: white, black or empty.
