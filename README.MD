@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/dm1sh/QRCodeLibrary/raw/master/img/logo.jpg" alt="QRCodeLibrary logo" width="150px">
+  <img src="https://github.com/dm1sh/QRCodeLibrary/raw/master/img/logo.png" alt="QRCodeLibrary logo" width="150px">
 </p>
 
 ## Description
