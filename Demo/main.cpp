@@ -73,15 +73,15 @@ int main() {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	const string long_sep = string((res.size() + 8) * SQUARE_WIDTH, 219),
 		short_sep = string(4 * SQUARE_WIDTH, 219),
-		black = string(SQUARE_WIDTH, 219),
-		white = string(SQUARE_WIDTH, ' ');
+		black = string(SQUARE_WIDTH, ' '),
+		white = string(SQUARE_WIDTH, 219);
 
 	SetConsoleCP(855);
 #else
 	const string long_sep = str_of((res.size() + 8) * SQUARE_WIDTH, "█"),
 		short_sep = str_of(4 * SQUARE_WIDTH, "█"),
-		black = str_of(SQUARE_WIDTH, "█"),
-		white = string(SQUARE_WIDTH, ' ');
+		black = string(SQUARE_WIDTH, ' '),
+		white = str_of(SQUARE_WIDTH, "█");
 #endif
 
 	for (int i = 0; i < 4; i++)
@@ -92,10 +92,10 @@ int main() {
 		for (auto cell : res[i])
 			switch (cell) {
 			case Trit::T:
-				cout << white;
+				cout << black;
 				break;
 			case Trit::F:
-				cout << black;
+				cout << white;
 				break;
 			default:
 				throw std::runtime_error("Empty cell is not allowed. Your QR code is corrupted.");

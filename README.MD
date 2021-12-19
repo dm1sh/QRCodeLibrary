@@ -78,8 +78,8 @@ You can get resulting QR code as 2D array of `Trits`:
 ```c++
 enum Trit {
   EMPTY = -1,
-  F, // Black square
-  T, // White square
+  F, // White square
+  T, // Black square
 };
 ```
 
