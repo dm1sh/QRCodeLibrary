@@ -40,7 +40,7 @@ std::string cp1251_to_utf8(const char* str)
 	return res;
 }
 #else
-string str_of(unsigned k, const string input) {
+string str_of(unsigned k, const string& input) {
 	string res;
 	for (;k > 0; k--)
 		res += input;
@@ -55,7 +55,7 @@ int main() {
 
 	string input, buff;
 
-	while(getline(cin, buff)) {
+	while (getline(cin, buff)) {
 		input += buff + '\n';
 	}
 	input.pop_back();
@@ -68,19 +68,20 @@ int main() {
 
 	const auto& res = qr.to_vector();
 
+#define SQUARE_WIDTH 2
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	const string long_sep = string((res.size() + 8) * 2, 219),
-		short_sep = string(4 * 2, 219),
-		black = string(2, 219),
-		white = "  ";
+	const string long_sep = string((res.size() + 8) * SQUARE_WIDTH, 219),
+		short_sep = string(4 * SQUARE_WIDTH, 219),
+		black = string(SQUARE_WIDTH, 219),
+		white = string(SQUARE_WIDTH, ' ');
 
 	SetConsoleCP(855);
 #else
-	const string long_sep = str_of((res.size() + 8) * 2, "█"),
-		short_sep = str_of(4 * 2, "█"),
-		black = str_of(2, "█"),
-		white = "  ";
+	const string long_sep = str_of((res.size() + 8) * SQUARE_WIDTH, "█"),
+		short_sep = str_of(4 * SQUARE_WIDTH, "█"),
+		black = str_of(SQUARE_WIDTH, "█"),
+		white = string(SQUARE_WIDTH, ' ');
 #endif
 
 	for (int i = 0; i < 4; i++)
@@ -104,4 +105,8 @@ int main() {
 
 	for (int i = 0; i < 4; i++)
 		cout << long_sep << endl;
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+	system("pause");
+#endif
 }
