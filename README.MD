@@ -7,7 +7,7 @@
 
 ## Description
 
-A C++ library for QRCode generation. It provides `QRCode` class with constructor, accepting input string and other QR code properties (see constructor definition below). After class construction you can access QR code content as new-line separated string of zeros and ones (useful for latter processing in other languages), multiline ASCII string for immidiate console output, or 2D vector of `Trit`s. It is an internal enum with three possible values: white, black or empty.
+A C++ library for QRCode generation. It provides `QRCode` class with constructor, accepting input string and other QR code properties (see constructor definition below). After class construction you can access QR code content as new-line separated string of zeros and ones (useful for latter processing in other languages), multiline ASCII string for immidiate console output, or 2D vector of `Trit`s. It is an internal enum with three possible values: black, white or empty.
 
 ## Library interface
 
@@ -22,9 +22,9 @@ public:
           unsigned char mask_n = 0 // index of mask to use (see below for different masks options)
         );
 
-  string to_string() const { return matrix.to_string(); }; // presents qr-code as multiline string of zeros and ones 
-  string to_ascii(char black = '#', char white = ' ', char empty = 'E') const { return matrix.to_ascii(black, white, empty); }  // presents qr-code as multiline string of specified characters 
-  vector<vector<Trit>> to_vector() const { return matrix.to_vector(); };  // presents qr-code as 2D vector of Trits 
+  string to_string() const; // presents qr-code as multiline string of zeros and ones 
+  string to_ascii(char black = '#', char white = ' ', char empty = 'E') const;  // presents qr-code as multiline string of specified characters 
+  vector<vector<Trit>> to_vector() const;  // presents qr-code as 2D vector of Trits 
 }
 ```
 
@@ -48,7 +48,7 @@ enum class QRCodeMethod {
 };
 ```
 
-Ony following 45 characters are available in alphabetic mode. But if you fit with them, alphabetic mode accepts twice as much characters.
+Ony the following 45 characters are available in alphabetic mode. But if you fit with them, alphabetic mode accepts twice as much characters.
 
 ```c++
 {
@@ -85,7 +85,7 @@ enum Trit {
 
 ## Example class usage
 
-Creating qrcode from string "HELLO WORLD" with quarter correction level, in alphabetic mode of version 2 and 4th correction mask. Generated QR code is outputed with '#' as black and ' ' as white squares.
+Creating qrcode from string "HELLO WORLD" with quarter correction level, in alphabetic mode of version 2 and 3rd correction mask. Generated QR code is outputed with '#' as black and ' ' as white squares.
 
 ```c++
 #include <QRCodeLibrary.hpp>
@@ -143,6 +143,10 @@ cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -H.
 cmake --build build --target QRCodeLibrary
 cd QRCodeLibrary && sudo cmake --install build
 ```
+
+For Visual Studio 2019:
+
+Open `QRCodeLibrary.sln` file. This is the root solution file of this library with demo project and tests set up. For Visual Stuio instructions, refer to [official docs](https://visualstudio.microsoft.com/vs/getting-started). Later instructions will show how to build this repository with CMake.
 
 ## Testing
 
