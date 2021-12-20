@@ -11,12 +11,13 @@ public:
 	QRCodeConstructorMock(Parameters ...params) {};
 };
 TEST(QRCodeTests, ConstructsClass) {
-	string inp("TEST");
+	string inp("TESTTESTTESTTESTTESTTEST");
 	QRCode qr(inp);
 
-	EXPECT_EQ(qr.input, "TEST");
+	EXPECT_EQ(qr.input, "TESTTESTTESTTESTTESTTEST");
 	EXPECT_EQ(qr.corr_lvl, CorrectionLevel::M);
 	EXPECT_EQ(qr.method, QRCodeMethod::Alphabetic);
+	EXPECT_EQ(qr.version, 1);
 }
 
 TEST(QRCodeTests, CreatesQRCode) {
