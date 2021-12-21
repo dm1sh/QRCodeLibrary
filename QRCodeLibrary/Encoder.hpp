@@ -6,6 +6,7 @@
 
 #include "Method.hpp"
 #include "BitArray.hpp"
+#include "utils.hpp"
 
 using namespace std;
 
@@ -86,7 +87,7 @@ constexpr unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QR
 
 template <typename T, size_t N>
 constexpr unsigned upper_index(const array<T, N> arr, T val) {
-	unsigned count = arr.size(), s = 0, e = 0, step = 0;
+	unsigned count = to_U(arr.size()), s = 0, e = 0, step = 0;
 
 	while (count > 0) {
 		step = count / 2;

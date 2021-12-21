@@ -2,6 +2,7 @@
 
 #include "QRMatrix.hpp"
 #include "Tables.hpp"
+#include "utils.hpp"
 
 void QRMatrix::draw_patterns()
 {
@@ -14,8 +15,8 @@ void QRMatrix::draw_patterns()
 void QRMatrix::draw_finder_patterns()
 {
 	draw_finder_square(0, 0);
-	draw_finder_square(c.size() - 7, 0);
-	draw_finder_square(0, c.size() - 7);
+	draw_finder_square(to_U(c.size()) - 7, 0);
+	draw_finder_square(0, to_U(c.size()) - 7);
 	draw_finder_square_separators();
 }
 
@@ -34,13 +35,13 @@ void QRMatrix::draw_finder_square(unsigned y, unsigned x)
 void QRMatrix::draw_finder_square_separators()
 {
 	set(7, 0, 0b0000000, 7);
-	set(7, c.size() - 7, 0b0000000, 7);
-	set(c.size() - 8, 0, 0b0000000, 7);
+	set(7, to_U(c.size()) - 7, 0b0000000, 7);
+	set(to_U(c.size()) - 8, 0, 0b0000000, 7);
 
 	for (unsigned i = 0; i < 8; i++) {
 		set(i, 7, 0);
-		set(i, c.size() - 8, 0);
-		set(c.size() - 8 + i, 7, 0);
+		set(i, to_U(c.size()) - 8, 0);
+		set(to_U(c.size()) - 8 + i, 7, 0);
 	}
 }
 
@@ -48,7 +49,7 @@ void QRMatrix::draw_alignment_patters()
 {
 	auto& coordinates = Tables::alignment_patterns_coordinates.at(version);
 	for (unsigned i = 0; i < coordinates.size(); i++) {
-		unsigned s = i, e = coordinates.size();
+		unsigned s = i, e = to_U(coordinates.size());
 		if (coordinates[i] == 6)
 			s++, e--;
 
@@ -81,7 +82,7 @@ void QRMatrix::draw_timing_patterns()
 
 void QRMatrix::draw_dark_module()
 {
-	set(c.size() - 8, 8, 1);
+	set(to_U(c.size()) - 8, 8, 1);
 }
 
 void QRMatrix::place_metadata(CorrectionLevel corr_lvl, unsigned char mask_n)
@@ -90,14 +91,14 @@ void QRMatrix::place_metadata(CorrectionLevel corr_lvl, unsigned char mask_n)
 		const auto& v_codes = Tables::version_codes.at(version-6);
 		for (unsigned i = 0; i < 3; i++)
 			for (unsigned j = 0; j < 6; j++) {
-				set(c.size() - 11 + i, j, (v_codes.at(i) >> (6 - 1 - j)) & 1);
-				set(j, c.size() - 11 + i, (v_codes.at(i) >> (6 - 1 - j)) & 1);
+				set(to_U(c.size()) - 11 + i, j, (v_codes.at(i) >> (6 - 1 - j)) & 1);
+				set(j, to_U(c.size()) - 11 + i, (v_codes.at(i) >> (6 - 1 - j)) & 1);
 			}
 	}
 
 	unsigned code = Tables::corr_lvl_and_mask_codes.at(corr_lvl)[mask_n];
 
-	unsigned y1 = 8, y2 = c.size() - 1, x1 = 0, x2 = 8;
+	unsigned y1 = 8, y2 = to_U(c.size()) - 1, x1 = 0, x2 = 8;
 	for (unsigned i = 0; i < 15; i++) {
 		set(y1, x1, (code >> (15 - 1 - i)) & 1);
 		set(y2, x2, (code >> (15 - 1 - i)) & 1);
@@ -112,7 +113,7 @@ void QRMatrix::place_metadata(CorrectionLevel corr_lvl, unsigned char mask_n)
 		}
 
 		if (y2 > c.size() - 8) y2--;
-		if (y2 == c.size() - 8) { y2 = 8; x2 = c.size() - 8; }
+		if (y2 == to_U(c.size()) - 8) { y2 = 8; x2 = to_U(c.size()) - 8; }
 		else if (y2 == 8) 
 			x2++;
 
@@ -123,7 +124,7 @@ void QRMatrix::place_metadata(CorrectionLevel corr_lvl, unsigned char mask_n)
 
 void QRMatrix::place_data(const BitArray& data, unsigned char mask_n)
 {
-	unsigned y = c.size() - 1;
+	unsigned y = to_U(c.size()) - 1;
 	unsigned x = y;
 	unsigned step = 0;
 	bool horiz_dir = true;

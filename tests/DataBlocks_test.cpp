@@ -40,7 +40,7 @@ TEST(DataBlocksTests, JoinsDataAndECBlocks) {
 		{ 235, 159, 5, 173, 24, 147, 59, 33, 106, 40, 255, 172, 82, 2, 131, 32, 178, 236 }
 	};
 
-	DataBlocks::join_data_and_EC_blocks(joined, e_data, d_b_sizes, EC_blocks);
+	DataBlocks::join_data_and_EC_blocks(joined, e_data, d_b_sizes, EC_blocks, 18);
 
 	const vector<unsigned char>res{
 		67, 246, 182, 70, 85, 246, 230, 247, 70, 66, 247, 118, 134, 7, 119,

@@ -2,12 +2,13 @@
 
 #include "Encoder.hpp"
 #include "Tables.hpp"
+#include "utils.hpp"
 
 #include <stdexcept>
 
 BitArray& Encoder::encode()
 {
-	unsigned encoded_bit_num = calculate_encoded_input_size(input.size(), method);
+	unsigned encoded_bit_num = calculate_encoded_input_size(to_U(input.size()), method);
 	unsigned metadata_bit_num = calculate_metadata_size(method, ((version < 0) ? 0 : version));
 
 	if (version < 0) {
@@ -22,7 +23,7 @@ BitArray& Encoder::encode()
 
 	e.resize(Tables::max_capability.at(corr_lvl).at(version));
 
-	write_metadata(input.size(), metadata_bit_num - 4, method, e);
+	write_metadata(to_U(input.size()), metadata_bit_num - 4, method, e);
 	encode_input(metadata_bit_num);
 
 	pad_data(e, metadata_bit_num + encoded_bit_num);
@@ -71,10 +72,10 @@ void Encoder::encode_numeric(const string& input, BitArray& out, unsigned offset
 
 	if (input.size() % 3 == 2) {
 		int bin = stoi(input.substr(input.size() - 2, 2));
-		out.set(offset + input.size() / 3 * 10, bin, 7);
+		out.set(offset + to_U(input.size()) / 3 * 10, bin, 7);
 	}
 	else if (input.size() % 3 == 1)
-		out.set(offset + input.size() / 3 * 10, input[input.size() - 1] - '0', 4);
+		out.set(offset + to_U(input.size()) / 3 * 10, input[input.size() - 1] - '0', 4);
 }
 
 void Encoder::encode_alphabetic(const string& input, BitArray& out, unsigned offset)
@@ -86,7 +87,7 @@ void Encoder::encode_alphabetic(const string& input, BitArray& out, unsigned off
 
 	if (input.size() % 2 == 1) {
 		int bin = encode_char(input[input.size() - 1]);
-		out.set(offset + input.size() / 2 * 11, bin, 6);
+		out.set(offset + to_U(input.size()) / 2 * 11, bin, 6);
 	}
 }
 

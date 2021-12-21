@@ -2,19 +2,20 @@
 
 #include "DataBlocks.hpp"
 #include "Tables.hpp"
+#include "utils.hpp"
 
 vector<unsigned char>& DataBlocks::compose_joined_data_and_EC_blocks()
 {
 	vector<pair<unsigned, unsigned>>data_block_sizes;
 
-	divide_to_blocks(data_block_sizes, e_data.size(), Tables::data_blocks_number.at(corr_lvl).at(version));
+	divide_to_blocks(data_block_sizes, to_U(e_data.size()), Tables::data_blocks_number.at(corr_lvl).at(version));
 
 	unsigned EC_bytes_number = Tables::correction_bytes_num.at(corr_lvl).at(version);
 	vector<vector<unsigned char>> EC_blocks(data_block_sizes.size(), vector<unsigned char>());
 	for (unsigned i = 0; i < data_block_sizes.size(); i++)
 		compose_EC_bytes(EC_blocks[i], e_data.cbegin() + data_block_sizes[i].second, EC_bytes_number, data_block_sizes[i].first);
 
-	join_data_and_EC_blocks(data, e_data, data_block_sizes, EC_blocks);
+	join_data_and_EC_blocks(data, e_data, data_block_sizes, EC_blocks, EC_bytes_number);
 
 	return data;
 }
@@ -59,7 +60,7 @@ unsigned get_db_byte_index(unsigned block_index, unsigned byte_index, const vect
 	return db_sizes[block_index].second + byte_index;
 }
 
-void DataBlocks::join_data_and_EC_blocks(vector<unsigned char>& res, const vector<unsigned char>& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<vector<unsigned char>>& ec_codes)
+void DataBlocks::join_data_and_EC_blocks(vector<unsigned char>& res, const vector<unsigned char>& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<vector<unsigned char>>& ec_codes, unsigned ec_bytes_number)
 {
 	if (ec_codes.size())
 		res.reserve(e_data.size() + ec_codes.at(0).size() * ec_codes.size());
@@ -72,7 +73,7 @@ void DataBlocks::join_data_and_EC_blocks(vector<unsigned char>& res, const vecto
 				res.push_back(e_data[get_db_byte_index(j, i, db_sizes)]);
 
 	if (ec_codes.size())
-		for (unsigned i = 0; i < ec_codes.at(0).size(); i++)
+		for (unsigned i = 0; i < ec_bytes_number; i++)
 			for (unsigned j = 0; j < ec_codes.size(); j++)
 				res.push_back(ec_codes[j][i]);
 }

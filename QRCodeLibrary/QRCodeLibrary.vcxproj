@@ -161,6 +161,7 @@
     <ClInclude Include="QRMatrix.hpp" />
     <ClInclude Include="Tables.hpp" />
     <ClInclude Include="TritMatrix.hpp" />
+    <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitArray.cpp" />

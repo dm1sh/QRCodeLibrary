@@ -16,7 +16,7 @@ public:
 
 	static void divide_to_blocks(vector<pair<unsigned, unsigned>>& db_sizes, unsigned data_size, unsigned db_number);
 	static void compose_EC_bytes(vector<unsigned char>& res, const vector<unsigned char>::const_iterator& src, unsigned corr_bytes_num, unsigned db_size);
-	static void join_data_and_EC_blocks(vector<unsigned char>&res, const vector<unsigned char>& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<vector<unsigned char>>& ec_codes);
+	static void join_data_and_EC_blocks(vector<unsigned char>&res, const vector<unsigned char>& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<vector<unsigned char>>& ec_codes, unsigned ec_bytes_number);
 
 private:
 	const vector<unsigned char>& e_data;

@@ -4,6 +4,8 @@
 #include <string>
 #include <stdexcept>
 
+#include "utils.hpp"
+
 using namespace std;
 
 constexpr unsigned ceil_div(unsigned a, unsigned b) {
@@ -15,7 +17,7 @@ class BitArray
 {
 public:
 	BitArray(unsigned size_ = 0) : size{ size_ }, v(ceil_div(size_, 8), 0) {};
-	BitArray(const vector<unsigned char>& input) : size(input.size() * 8), v{ input } {};
+	BitArray(const vector<unsigned char>& input) : size(to_U(input.size()) * 8), v{ input } {};
 
 	operator std::string() const;
 	
