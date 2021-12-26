@@ -5,16 +5,10 @@
 
 #include "../QRCodeLibrary/QRCode.hpp"
 
-class QRCodeConstructorMock : public QRCode {
-public:
-	template <typename ...Parameters>
-	QRCodeConstructorMock(Parameters ...params) {};
-};
 TEST(QRCodeTests, ConstructsClass) {
-	string inp("TESTTESTTESTTESTTESTTEST");
-	QRCode qr(inp);
+	QRCode qr("TESTTESTTESTTESTTESTTEST");
 
-	EXPECT_EQ(qr.input, "TESTTESTTESTTESTTESTTEST");
+	EXPECT_EQ(qr.input, str_to_bytes("TESTTESTTESTTESTTESTTEST"));
 	EXPECT_EQ(qr.corr_lvl, CorrectionLevel::M);
 	EXPECT_EQ(qr.method, QRCodeMethod::Alphabetic);
 	EXPECT_EQ(qr.version, 1);

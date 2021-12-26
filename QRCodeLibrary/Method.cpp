@@ -3,7 +3,7 @@
 #include "Method.hpp"
 #include "Tables.hpp"
 
-QRCodeMethod Method::determite_method(string& input)
+QRCodeMethod Method::determite_method(byte_list& input)
 {
 	QRCodeMethod type = QRCodeMethod::Numeric;
 

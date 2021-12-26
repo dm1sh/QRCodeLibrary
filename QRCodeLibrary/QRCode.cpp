@@ -5,7 +5,7 @@
 #include "DataBlocks.hpp"
 #include "Tables.hpp"
 
-QRCode::QRCode(string& input_, CorrectionLevel corr_lvl_, QRCodeMethod method_, char version_, unsigned char mask_n) :
+QRCode::QRCode(const byte_list& input_, CorrectionLevel corr_lvl_, QRCodeMethod method_, char version_, unsigned char mask_n) :
 	input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ }, matrix(0)
 {
 	if (method == QRCodeMethod::Dynamic) {

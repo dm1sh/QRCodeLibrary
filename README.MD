@@ -7,20 +7,24 @@
 
 ## Description
 
-A C++ library for QRCode generation. It provides `QRCode` class with constructor, accepting input string and other QR code properties (see constructor definition below). After class construction you can access QR code content as new-line separated string of zeros and ones (useful for latter processing in other languages), multiline ASCII string for immidiate console output, or 2D vector of `Trit`s. It is an internal enum with three possible values: black, white or empty.
+A C++ library for QRCode generation. It provides `QRCode` class with constructor, accepting input bytes as vector of unsigned chars or string and other QR code properties (see constructor definition below). After class construction you can access QR code content as new-line separated string of zeros and ones (useful for latter processing in other languages), multiline ASCII string for immidiate console output, or 2D vector of `Trit`s. It is an internal enum with three possible values: black, white or empty.
 
 ## Library interface
 
 ```c++
+using byte_list = vector<unsigned char>; // shorthand for 
+
 class QRCode
 {
 public:
-  QRCode( string& input_, // input string for qr-code encoding
+  QRCode( const byte_list& input_, // input bytes for qr-code encoding
           CorrectionLevel corr_lvl_ = CorrectionLevel::M, // correction level of qr-code (see below for possible values)
           QRCodeMethod method_ = QRCodeMethod::Dynamic, // input encoding method (see below for possible values)
           char version_ = -1, // manual version, starting from 0 (0 - 39 versions). If not set, calculated dynamically
           unsigned char mask_n = 0 // index of mask to use (see below for different masks options)
         );
+  // same as before except for input as std::string
+  QRCode(const string& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1, unsigned char mask_n = 0)
 
   string to_string() const; // presents qr-code as multiline string of zeros and ones 
   string to_ascii(char black = '#', char white = ' ', char empty = 'E') const;  // presents qr-code as multiline string of specified characters 
@@ -92,9 +96,7 @@ Creating qrcode from string "HELLO WORLD" with quarter correction level, in alph
 
 // ...
 
-std::string input("HELLO WORLD");
-
-QRCode qr(input, CorrectionLevel::Q, QRCodeMethod::Alphabetic, 1, 3);
+QRCode qr("HELLO WORLD", CorrectionLevel::Q, QRCodeMethod::Alphabetic, 1, 3);
 
 std::cout << qr.to_ascii('#', ' ', 'E') << std::endl;
 ```

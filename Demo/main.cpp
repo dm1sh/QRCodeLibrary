@@ -64,7 +64,7 @@ int main() {
 	input = cp1251_to_utf8(input.c_str());
 #endif
 
-	QRCode qr(input);
+	QRCode qr(input, CorrectionLevel::H);
 
 	const auto& res = qr.to_vector();
 

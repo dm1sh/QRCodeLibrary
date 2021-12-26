@@ -13,7 +13,7 @@ using namespace std;
 class Encoder
 {
 public:
-	Encoder(const string& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1) : input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ } {};
+	Encoder(const byte_list& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1) : input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ } {};
 
 	BitArray& encode();
 
@@ -27,10 +27,10 @@ public:
 	constexpr void encode_input(unsigned offset) {
 		switch (method) {
 		case QRCodeMethod::Numeric:
-			encode_numeric(input, e, offset);
+			encode_numeric(bytes_to_str(input), e, offset);
 			break;
 		case QRCodeMethod::Alphabetic:
-			encode_alphabetic(input, e, offset);
+			encode_alphabetic(bytes_to_str(input), e, offset);
 			break;
 		case QRCodeMethod::Byte:
 			encode_byte(input, e, offset);
@@ -40,7 +40,7 @@ public:
 
 	static void encode_numeric(const string& input, BitArray& out, unsigned offset);
 	static void encode_alphabetic(const string& input, BitArray& out, unsigned offset);
-	static void encode_byte(const string& input, BitArray& out, unsigned offset);
+	static void encode_byte(const byte_list& input, BitArray& out, unsigned offset);
 
 	static void pad_data(BitArray& arr, unsigned bits_written);
 
@@ -50,7 +50,7 @@ public:
 private:
 	static constexpr unsigned char encode_char(char ch);
 
-	const string input;
+	const byte_list input;
 	CorrectionLevel corr_lvl;
 	const QRCodeMethod method;
 	char version;
@@ -86,8 +86,8 @@ constexpr unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QR
 }
 
 template <typename T, size_t N>
-constexpr unsigned upper_index(const array<T, N> arr, T val) {
-	unsigned count = to_U(arr.size()), s = 0, e = 0, step = 0;
+constexpr unsigned upper_index(const array<T, N>& arr, T val) {
+	unsigned count = N, s = 0, e = 0, step = 0;
 
 	while (count > 0) {
 		step = count / 2;

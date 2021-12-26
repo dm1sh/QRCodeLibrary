@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "utils.hpp"
 
 using namespace std;
 
@@ -20,7 +20,7 @@ enum class CorrectionLevel {
 
 class Method {
 public:
-	static QRCodeMethod determite_method(string& input);
+	static QRCodeMethod determite_method(byte_list& input);
 
 	static constexpr bool is_num(char ch) { return ch >= '0' && ch <= '9'; };
 };

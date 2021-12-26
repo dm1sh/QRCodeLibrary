@@ -91,7 +91,7 @@ void Encoder::encode_alphabetic(const string& input, BitArray& out, unsigned off
 	}
 }
 
-void Encoder::encode_byte(const string& input, BitArray& out, unsigned offset)
+void Encoder::encode_byte(const byte_list& input, BitArray& out, unsigned offset)
 {
 	for (unsigned i = 0; i < input.size(); i++)
 		out.set(offset + i * 8, input[i], 8);
