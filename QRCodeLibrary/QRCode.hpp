@@ -19,11 +19,11 @@ public:
 	vector<vector<Trit>> to_vector() const { return matrix.to_vector(); };
 
 protected:
-	byte_list input;
+	byte_list input; // данные для кодирования в QR код
 	CorrectionLevel corr_lvl;
 	QRCodeMethod method;
 	char version;
 
-	QRMatrix matrix;
+	QRMatrix matrix; // матрица, содержащая QR код
 };
 

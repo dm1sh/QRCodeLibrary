@@ -10,12 +10,11 @@
 
 using namespace std;
 
+// Кодирует данные и добавляет метаданные
 class Encoder
 {
 public:
-	Encoder(const byte_list& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1) : input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ } {};
-
-	BitArray& encode();
+	Encoder(const byte_list& input_, CorrectionLevel corr_lvl_ = CorrectionLevel::M, QRCodeMethod method_ = QRCodeMethod::Dynamic, char version_ = -1);
 
 	static char determite_version(unsigned size, CorrectionLevel corr_lvl);
 
@@ -42,10 +41,11 @@ public:
 	static void encode_alphabetic(const string& input, BitArray& out, unsigned offset);
 	static void encode_byte(const byte_list& input, BitArray& out, unsigned offset);
 
+	// Дополняет данные определёнными символами если их меньше, чем предполагает версия
 	static void pad_data(BitArray& arr, unsigned bits_written);
 
 	constexpr char get_version() const { return version; };
-	BitArray get_data() const;
+	BitArray& get_data();
 
 private:
 	static constexpr unsigned char encode_char(char ch);

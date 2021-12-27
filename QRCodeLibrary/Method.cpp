@@ -7,7 +7,7 @@ QRCodeMethod Method::determite_method(const byte_list& input)
 {
 	QRCodeMethod type = QRCodeMethod::Numeric;
 
-	for (auto ch : input) {
+	for (auto ch : input) { // перебирая байты данных
 		if (type == QRCodeMethod::Numeric)
 			if (!is_num(ch))
 				type = QRCodeMethod::Alphabetic;

@@ -8,50 +8,50 @@ bool BitArray::get(unsigned index) const
 {
 	if (index >= size) throw std::out_of_range("No such element in array");
 
-    return (v[index / 8] >> (8 - 1 - index % 8)) & 1;
+    return (v[index / 8] >> (8 - index % 8 - 1)) & 1; // получаем байт, в котором хранится искомый бит, смещаем его вправо на то, сколько бит стоят справа от индекса и применяем маску 00000001 
 }
 
 BitArray::operator std::string() const 
 {
 	std::stringstream res;
 
-	for (unsigned i = 0; i < size; i++)
-		res << static_cast<int>((*this).get(i));
+	for (unsigned i = 0; i < size; i++) // для каждого бита в массиве
+		res << static_cast<int>(get(i)); // выводим его как число в строковый поток
 
-	return res.str();
+	return res.str(); // возвращаем строку, полученную из строкового потока
 }
 
 void BitArray::set(unsigned index, bool val)
 {
 	if (index >= size) throw std::out_of_range("No such element in array");
 
-	if (val)
-		v[index / 8] |= 1 << (8 - 1 - index % 8);
+	if (val == 1)
+		v[index / 8] |= 1 << (8 - index % 8 - 1); // к байту, где нужно установить бит прибавляем при помощи битового или единицу, сменённую на то, сколько бит стоят справа от индекса
 	else
-		v[index / 8] &= ~(1 << (8 - 1 - index % 8));
+		v[index / 8] &= ~(1 << (8 - index % 8 - 1)); // к байту, где нужно установить бит применяем битовую маску, где включены все биты кроме того, который соответсвует данному индексу 
 }
 
 unsigned BitArray::set(unsigned index, int32_t val, unsigned size)
 {
 	if (index >= this->size) throw std::out_of_range("No such element in array");
 
-	unsigned shift = index % 8, written = 0;
+	unsigned shift = index % 8; // смещение слева внутри байта
+	unsigned written = 0; // количество записанных байт
 
 	if (size > this->size - index) throw std::out_of_range("Number of bits to write from this index is more than BitArray capability");
 
-	index /= 8;
+	// Цикл для каждого изменяемого в процессе записи байта массива пока не записали все входные данные
+	for (int i = index / 8; written < size; i++) {
+		int input_shift = size - (8 - shift) - written; // смещение справа для входных данных данных
+		int right_rem = input_shift < 0 ? -input_shift : 0; // то, сколько бит нужно взять из исходного массива справа от записываемых данных
 
-	while (written < size) {
-		int input_shift = size - (8 - shift) - written;
-		int right_rem = input_shift < 0 ? -input_shift : 0;
+		v[i] = (v[i] & (-1 << (8 - shift))) | // данные исходного байта слева от записываемых. Битовая маска зануляет те биты, которые будут браться из записываемых данных
+			(((1 << (8 - shift)) - 1) & // битовая маска, оставляющая 8-shift бит слева
+			  ((input_shift >= 0) ? (val >> input_shift) : (val << -input_shift))) | // если положительное, тогда смещаемся вправо, иначе - влево
+			(v[i] & ((1 << right_rem) - 1)); // берём последние right_rem бит исходного байта
 
-		v[index] = ((v[index] >> (8 - shift)) << (8 - shift)) |
-			(unsigned char)(((1 << (8 - shift)) - 1) & ((input_shift >= 0) ? (val >> input_shift) : (val << -input_shift))) |
-			(v[index] & ((1 << right_rem) - 1));
-
-		written += 8 - shift;
-		index++;
-		shift = 0;
+		written += 8 - shift; // наращиваем количество записанных бит на то, сколько бит было записано на этой итерации
+		shift = 0; // сбрасываем левое смещение после первой итерации
 	}
 
 	return written;
