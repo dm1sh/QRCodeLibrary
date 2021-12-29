@@ -10,19 +10,19 @@ using namespace std;
 class DataBlocks
 {
 public:
-	DataBlocks(const vector<unsigned char>& e_data_, CorrectionLevel corr_lvl_, char version_) : e_data{ e_data_ }, corr_lvl{ corr_lvl_ }, version{ version_ } {};
+	DataBlocks(const byte_list& e_data_, CorrectionLevel corr_lvl_, char version_);
 
-	vector<unsigned char>& compose_joined_data_and_EC_blocks();
+	byte_list& get_joined_data_and_EC_blocks() { return data; };
 
 	static void divide_to_blocks(vector<pair<unsigned, unsigned>>& db_sizes, unsigned data_size, unsigned db_number);
-	static void compose_EC_bytes(vector<unsigned char>& res, const vector<unsigned char>::const_iterator& src, unsigned corr_bytes_num, unsigned db_size);
-	static void join_data_and_EC_blocks(vector<unsigned char>&res, const vector<unsigned char>& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<vector<unsigned char>>& ec_codes, unsigned ec_bytes_number);
+	static void compose_EC_bytes(byte_list& res, const byte_list::const_iterator& src, unsigned corr_bytes_num, unsigned db_size);
+	static void join_data_and_EC_blocks(byte_list&res, const byte_list& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<byte_list>& ec_codes, unsigned ec_bytes_number);
 
 private:
-	const vector<unsigned char>& e_data;
+	const byte_list& e_data;
 	CorrectionLevel corr_lvl;
 	char version;
 
-	vector<unsigned char> data;
+	byte_list data;
 };
 

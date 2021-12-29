@@ -26,7 +26,7 @@ public:
 	void resize(unsigned width, unsigned height);
 
 	string to_ascii(char black = '#', char white = ' ', char empty = 'E') const;
-	string to_string() const;
+	string to_string() const { return to_ascii('1', '0', 'E'); };
 	vector<vector<Trit>> to_vector() const { return c; };
 
 protected:

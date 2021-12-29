@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-BitArray& Encoder::encode()
+Encoder::Encoder(const byte_list& input_, CorrectionLevel corr_lvl_, QRCodeMethod method_, char version_): input{ input_ }, corr_lvl{ corr_lvl_ }, method{ method_ }, version{ version_ }
 {
 	unsigned encoded_bit_num = calculate_encoded_input_size(to_U(input.size()), method);
 	unsigned metadata_bit_num = calculate_metadata_size(method, ((version < 0) ? 0 : version));
@@ -27,8 +27,6 @@ BitArray& Encoder::encode()
 	encode_input(metadata_bit_num);
 
 	pad_data(e, metadata_bit_num + encoded_bit_num);
-
-	return e;
 }
 
 char Encoder::determite_version(unsigned size, CorrectionLevel corr_lvl)
@@ -65,17 +63,20 @@ void Encoder::write_metadata(unsigned input_size, unsigned input_bits_amount_siz
 
 void Encoder::encode_numeric(const string& input, BitArray& out, unsigned offset)
 {
+	int bin;
 	for (unsigned i = 0; i < input.size() / 3; i++) {
-		int bin = stoi(input.substr(i * 3, 3));
+		bin = stoi(input.substr(i * 3, 3));
 		out.set(offset + i * 10, bin, 10);
 	}
 
 	if (input.size() % 3 == 2) {
-		int bin = stoi(input.substr(input.size() - 2, 2));
+		bin = stoi(input.substr(input.size() - 2, 2));
 		out.set(offset + to_U(input.size()) / 3 * 10, bin, 7);
 	}
-	else if (input.size() % 3 == 1)
-		out.set(offset + to_U(input.size()) / 3 * 10, input[input.size() - 1] - '0', 4);
+	else if (input.size() % 3 == 1) {
+		bin = input[input.size() - 1] - '0';
+		out.set(offset + to_U(input.size()) / 3 * 10, bin, 4);
+	}
 }
 
 void Encoder::encode_alphabetic(const string& input, BitArray& out, unsigned offset)
@@ -118,7 +119,7 @@ void Encoder::pad_data(BitArray& arr, unsigned bits_written)
 		arr.v[i] = ((i - encoded_bytes) % 2 == 0) ? 0b11101100 : 0b00010001;
 }
 
-BitArray Encoder::get_data() const
+BitArray& Encoder::get_data()
 {
 	if (e.size == 0) throw std::runtime_error("Data is not calculated yet");
 

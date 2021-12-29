@@ -1,15 +1,19 @@
 ﻿#include <iostream>
 #include <locale>
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#include <Windows.h>
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
+#define IS_WINDOWS
+#endif
+
+#ifdef IS_WINDOWS
+#include <IS_WINDOWSows.h>
 #endif
 
 #include "../QRCodeLibrary/QRCode.hpp"
 
 using namespace std;
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#ifdef IS_WINDOWS
 std::string cp1251_to_utf8(const char* str)
 {
 	std::string res;
@@ -49,18 +53,19 @@ string str_of(unsigned k, const string& input) {
 #endif
 
 int main() {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#ifdef IS_WINDOWS
 	SetConsoleCP(1251);
 #endif
 
-	string input, buff;
+	string input;
+	string buff;
 
 	while (getline(cin, buff)) {
 		input += buff + '\n';
 	}
 	input.pop_back();
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#ifdef IS_WINDOWS
 	input = cp1251_to_utf8(input.c_str());
 #endif
 
@@ -70,7 +75,7 @@ int main() {
 
 #define SQUARE_WIDTH 2
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#ifdef IS_WINDOWS
 	const string long_sep = string((res.size() + 8) * SQUARE_WIDTH, 219),
 		short_sep = string(4 * SQUARE_WIDTH, 219),
 		black = string(SQUARE_WIDTH, ' '),
@@ -106,7 +111,7 @@ int main() {
 	for (int i = 0; i < 4; i++)
 		cout << long_sep << endl;
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#ifdef IS_WINDOWS
 	system("pause");
 #endif
 }

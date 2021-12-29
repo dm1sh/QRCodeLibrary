@@ -37,6 +37,7 @@ namespace Tables {
 		{ QRCodeMethod::Alphabetic, 0b0010 },
 		{ QRCodeMethod::Byte, 0b0100 }
 	};
+
 	static const std::map<QRCodeMethod, const std::array<const std::pair<unsigned char, unsigned char>, 3>>data_amount_lengths{
 		{ QRCodeMethod::Numeric, {{ {0, 10}, {9, 12}, {26, 14} }} },
 		{ QRCodeMethod::Alphabetic, {{ {0, 9}, {9, 11}, {26, 13} }} },

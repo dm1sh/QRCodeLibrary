@@ -48,6 +48,7 @@ void QRMatrix::draw_finder_square_separators()
 void QRMatrix::draw_alignment_patters()
 {
 	auto& coordinates = Tables::alignment_patterns_coordinates.at(version);
+
 	for (unsigned i = 0; i < coordinates.size(); i++) {
 		unsigned s = i, e = to_U(coordinates.size());
 		if (coordinates[i] == 6)
@@ -89,6 +90,7 @@ void QRMatrix::place_metadata(CorrectionLevel corr_lvl, unsigned char mask_n)
 {
 	if (version >= 6) {
 		const auto& v_codes = Tables::version_codes.at(version-6);
+
 		for (unsigned i = 0; i < 3; i++)
 			for (unsigned j = 0; j < 6; j++) {
 				set(to_U(c.size()) - 11 + i, j, (v_codes.at(i) >> (6 - 1 - j)) & 1);
@@ -97,7 +99,6 @@ void QRMatrix::place_metadata(CorrectionLevel corr_lvl, unsigned char mask_n)
 	}
 
 	unsigned code = Tables::corr_lvl_and_mask_codes.at(corr_lvl)[mask_n];
-
 	unsigned y1 = 8, y2 = to_U(c.size()) - 1, x1 = 0, x2 = 8;
 	for (unsigned i = 0; i < 15; i++) {
 		set(y1, x1, (code >> (15 - 1 - i)) & 1);
@@ -108,13 +109,16 @@ void QRMatrix::place_metadata(CorrectionLevel corr_lvl, unsigned char mask_n)
 			if (x1 == 6) x1++;
 		}
 		else {
-			if (x1 == 8) y1--;
+			y1--;
 			if (y1 == 6) y1--;
 		}
 
-		if (y2 > c.size() - 8) y2--;
-		if (y2 == to_U(c.size()) - 8) { y2 = 8; x2 = to_U(c.size()) - 8; }
-		else if (y2 == 8) 
+		if (y2 > c.size() - 8)
+			y2--;
+		if (y2 == to_U(c.size()) - 8) {
+			y2 = 8;
+			x2 = to_U(c.size()) - 8;
+	  } else if (y2 == 8)
 			x2++;
 
 	}
@@ -133,7 +137,7 @@ void QRMatrix::place_data(const BitArray& data, unsigned char mask_n)
 	const auto& mask = Tables::mask_functions.at(mask_n);
 
 	while (true) {
-		if (x == 6)
+		if (x == 6) // skip vertical sync line
 			x--;
 
 		if (get(y, x) == Trit::EMPTY) {
@@ -144,7 +148,7 @@ void QRMatrix::place_data(const BitArray& data, unsigned char mask_n)
 			else set(y, x, !mask(y, x));
 		}
 
-		if (horiz_dir)
+		if (horiz_dir) 
 			x--;
 		else {
 			x++;
@@ -158,7 +162,7 @@ void QRMatrix::place_data(const BitArray& data, unsigned char mask_n)
 			}
 			else {
 				if (y == c.size() - 1) {
-					if (x == 1) // т.к. сделали шаг "вправо" на строчке 130
+					if (x == 1) // x is already shifted on line 162 (x++) so use a bigger one
 						break;
 
 					x -= 2;
