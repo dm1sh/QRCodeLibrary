@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/dm1sh/QRCodeLibrary/raw/master/img/logo.png" alt="QRCodeLibrary logo" width="150px">
+  <img src="./img/logo.png" alt="QRCodeLibrary logo" width="150px">
 </p>
 
 ## Description
@@ -236,4 +236,4 @@ Hello, world. I'm a simple QR code. You can scan me with scaner and see, what am
 
 </details>
 
-![Screenshot](https://github.com/dm1sh/QRCodeLibrary/raw/master/img/demo_screen.jpg)
+![Screenshot](./img/demo_screen.jpg)
