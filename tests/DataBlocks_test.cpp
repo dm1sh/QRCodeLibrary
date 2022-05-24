@@ -5,6 +5,9 @@
 
 #include "../QRCodeLibrary/DataBlocks.hpp"
 
+using std::vector;
+using std::pair;
+
 TEST(DataBlocksTests, ComposesSizesOfDatablocks) {
 	vector<pair<unsigned, unsigned>> db_s;
 

@@ -6,12 +6,12 @@
 
 DataBlocks::DataBlocks(const byte_list& e_data_, CorrectionLevel corr_lvl_, char version_) : e_data{ e_data_ }, corr_lvl{ corr_lvl_ }, version{ version_ } 
 {
-	vector<pair<unsigned, unsigned>>data_block_sizes;
+	std::vector<std::pair<unsigned, unsigned>>data_block_sizes;
 
 	divide_to_blocks(data_block_sizes, to_U(e_data.size()), Tables::data_blocks_number.at(corr_lvl).at(version));
 
 	unsigned EC_bytes_number = Tables::correction_bytes_num.at(corr_lvl).at(version);
-	vector<byte_list> EC_blocks(data_block_sizes.size(), byte_list());
+	std::vector<byte_list> EC_blocks(data_block_sizes.size(), byte_list());
 
 	for (unsigned i = 0; i < data_block_sizes.size(); i++)
 		compose_EC_bytes(EC_blocks[i], e_data.cbegin() + data_block_sizes[i].second, EC_bytes_number, data_block_sizes[i].first);
@@ -19,7 +19,7 @@ DataBlocks::DataBlocks(const byte_list& e_data_, CorrectionLevel corr_lvl_, char
 	join_data_and_EC_blocks(data, e_data, data_block_sizes, EC_blocks, EC_bytes_number);
 }
 
-void DataBlocks::divide_to_blocks(vector<pair<unsigned, unsigned>>& db_sizes, unsigned data_size, unsigned db_number)
+void DataBlocks::divide_to_blocks(std::vector<std::pair<unsigned, unsigned>>& db_sizes, unsigned data_size, unsigned db_number)
 {
 	db_sizes.reserve(db_number);
 
@@ -34,7 +34,7 @@ void DataBlocks::divide_to_blocks(vector<pair<unsigned, unsigned>>& db_sizes, un
 
 void DataBlocks::compose_EC_bytes(byte_list& res, const byte_list::const_iterator& src, unsigned corr_bytes_num, unsigned db_size)
 {
-	res.reserve(max(db_size, corr_bytes_num));
+	res.reserve(std::max(db_size, corr_bytes_num));
 	res.insert(res.end(), src, src + db_size);
 	res.resize(res.capacity(), 0);
 
@@ -57,11 +57,11 @@ void DataBlocks::compose_EC_bytes(byte_list& res, const byte_list::const_iterato
 	}
 }
 
-unsigned get_db_byte_index(unsigned block_index, unsigned byte_index, const vector<pair<unsigned, unsigned>>& db_sizes) {
+unsigned get_db_byte_index(unsigned block_index, unsigned byte_index, const std::vector<std::pair<unsigned, unsigned>>& db_sizes) {
 	return db_sizes[block_index].second + byte_index;
 }
 
-void DataBlocks::join_data_and_EC_blocks(byte_list& res, const byte_list& e_data, const vector<pair<unsigned, unsigned>>& db_sizes, const vector<byte_list>& ec_codes, unsigned ec_bytes_number)
+void DataBlocks::join_data_and_EC_blocks(byte_list& res, const byte_list& e_data, const std::vector<std::pair<unsigned, unsigned>>& db_sizes, const std::vector<byte_list>& ec_codes, unsigned ec_bytes_number)
 {
 	res.reserve(e_data.size() + ec_codes.at(0).size() * ec_codes.size());
 

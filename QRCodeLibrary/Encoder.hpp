@@ -8,8 +8,6 @@
 #include "BitArray.hpp"
 #include "utils.hpp"
 
-using namespace std;
-
 class Encoder
 {
 public:
@@ -36,8 +34,8 @@ public:
 		}
 	};
 
-	static void encode_numeric(const string& input, BitArray& out, unsigned offset);
-	static void encode_alphabetic(const string& input, BitArray& out, unsigned offset);
+	static void encode_numeric(const std::string& input, BitArray& out, unsigned offset);
+	static void encode_alphabetic(const std::string& input, BitArray& out, unsigned offset);
 	static void encode_byte(const byte_list& input, BitArray& out, unsigned offset);
 
 	static void pad_data(BitArray& arr, unsigned bits_written);
@@ -84,7 +82,7 @@ constexpr unsigned Encoder::calculate_encoded_input_size(unsigned input_size, QR
 }
 
 template <typename T, size_t N>
-constexpr unsigned upper_index(const array<T, N>& arr, T val) {
+constexpr unsigned upper_index(const std::array<T, N>& arr, T val) {
 	unsigned count = N, s = 0, e = 0, step = 0;
 
 	while (count > 0) {

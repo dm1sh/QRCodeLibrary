@@ -112,8 +112,8 @@ namespace Tables {
 		79, 174, 213, 233, 230, 231, 173, 232, 116, 214, 244, 234, 168, 80, 88, 175
 	};
 
-	static const array<const vector<unsigned>, 40>alignment_patterns_coordinates{
-		vector<unsigned>(), {18,}, {22,}, {26,}, {30,},
+	static const std::array<const std::vector<unsigned>, 40>alignment_patterns_coordinates{
+		std::vector<unsigned>(), {18,}, {22,}, {26,}, {30,},
 		{34,}, {6, 22, 38}, {6, 24, 42}, {6, 26, 46}, {6, 28, 50},
 		{6, 30, 54}, {6, 32, 58}, {6, 34, 62}, {6, 26, 46, 66}, {6, 26, 48, 70},
 		{6, 26, 50, 74}, {6, 30, 54, 78}, {6, 30, 56, 82}, {6, 30, 58, 86}, {6, 34, 62, 90},
@@ -124,7 +124,7 @@ namespace Tables {
 		{6, 28, 54, 80, 106, 132, 158}, {6, 32, 58, 84, 110, 136, 162}, {6, 26, 54, 82, 110, 138, 166}, {6, 30, 58, 86, 114, 142, 170}
 	};
 
-	static constexpr array<const array<unsigned char, 3>, 34>version_codes{ {
+	static constexpr std::array<const std::array<unsigned char, 3>, 34>version_codes{ {
 		{ 0b000010, 0b011110, 0b100110 },
 		{ 0b010001, 0b011100, 0b111000 },
 		{ 0b110111, 0b011000, 0b000100 },
@@ -161,7 +161,7 @@ namespace Tables {
 		{ 0b111001, 0b000100, 0b010101 }
 	} };
 
-	static const map<CorrectionLevel, array<unsigned short, 8>>corr_lvl_and_mask_codes{
+	static const std::map<CorrectionLevel, std::array<unsigned short, 8>>corr_lvl_and_mask_codes{
 		{ CorrectionLevel::L, 
 			{ 0b111011111000100, 0b111001011110011, 0b111110110101010, 0b111100010011101, 0b110011000101111, 0b110001100011000, 0b110110001000001, 0b110100101110110 } 
 		},
@@ -176,7 +176,7 @@ namespace Tables {
 		}
 	};
 
-	static const array<std::function<bool(unsigned, unsigned)>, 8>mask_functions{ {
+	static const std::array<std::function<bool(unsigned, unsigned)>, 8>mask_functions{ {
 		[](unsigned y, unsigned x) { return (x + y) % 2; },
 		[](unsigned y, unsigned x) { return y % 2; },
 		[](unsigned y, unsigned x) { return x % 3; },

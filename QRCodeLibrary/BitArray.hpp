@@ -6,10 +6,8 @@
 
 #include "utils.hpp"
 
-using namespace std;
-
 constexpr static unsigned ceil_div(unsigned a, unsigned b) {
-	if (b == 0) throw runtime_error("Dividion by zero not possible");
+	if (b == 0) throw std::runtime_error("Dividion by zero not possible");
 	return a / b + (a % b > 0);
 }
 

@@ -61,7 +61,7 @@ void Encoder::write_metadata(unsigned input_size, unsigned input_bits_amount_siz
 	out.set(4, input_size, input_bits_amount_size);
 }
 
-void Encoder::encode_numeric(const string& input, BitArray& out, unsigned offset)
+void Encoder::encode_numeric(const std::string& input, BitArray& out, unsigned offset)
 {
 	int bin;
 	for (unsigned i = 0; i < input.size() / 3; i++) {
@@ -79,7 +79,7 @@ void Encoder::encode_numeric(const string& input, BitArray& out, unsigned offset
 	}
 }
 
-void Encoder::encode_alphabetic(const string& input, BitArray& out, unsigned offset)
+void Encoder::encode_alphabetic(const std::string& input, BitArray& out, unsigned offset)
 {
 	for (unsigned i = 0; i < input.size() / 2; i++) {
 		int bin = encode_char(input[i * 2]) * 45 + encode_char(input[i * 2 + 1]);

@@ -25,9 +25,9 @@ void TritMatrix::set(unsigned y, unsigned x, bool val)
     set(y, x, val ? Trit::T : Trit::F);
 }
 
-string TritMatrix::to_ascii(char black, char white, char empty) const
+std::string TritMatrix::to_ascii(char black, char white, char empty) const
 {
-    string res;
+    std::string res;
 
     for (unsigned i = 0; i < c.size(); i++) {
         for (unsigned j = 0; j < c.at(0).size(); j++)

@@ -2,8 +2,6 @@
 
 #include "utils.hpp"
 
-using namespace std;
-
 enum class QRCodeMethod {
 	Dynamic,
 	Numeric,
